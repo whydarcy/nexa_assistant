@@ -1,0 +1,39 @@
+{
+  "appId": "com.nexa.app",
+  "productName": "Nexa",
+  "directories": {
+    "output": "release/app-source",
+    "buildResources": "build"
+  },
+  "files": [
+    "dist/**/*",
+    "renderer/**/*",
+    "plugins/**/*",
+    "services/**/*",
+    "package.json",
+    "LICENSE.txt"
+  ],
+  "extraResources": [
+    {
+      "from": "resources",
+      "to": "resources",
+      "filter": ["**/*"]
+    },
+    {
+      "from": "build/icon.ico",
+      "to": "icon.ico"
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "dir",
+        "arch": ["x64"]
+      }
+    ],
+    "icon": "build/icon.ico"
+  },
+  "compression": "maximum",
+  "asar": true,
+  "asarUnpack": []
+}

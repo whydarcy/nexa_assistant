@@ -1,0 +1,86 @@
+{
+	"name": "nexa-assistant",
+	"version": "0.0.1",
+	"description": "Nexa voice assistant",
+	"author": "Nexa",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/whydarcy/nexa_assistant.git"
+	},
+	"main": "dist/main.js",
+	"scripts": {
+		"build": "npm --prefix vue run build",
+		"start": "electron .",
+		"dist": "npm run build && electron-builder --win",
+		"dist:publish": "npm run build && electron-builder --win --publish always"
+	},
+	"build": {
+		"appId": "com.nexa.app",
+		"productName": "Nexa",
+		"directories": {
+			"output": "release",
+			"buildResources": "build"
+		},
+		"files": [
+			"dist/**/*",
+			"renderer/**/*",
+			"package.json"
+		],
+		"extraResources": [
+			{
+				"from": "resources",
+				"to": "resources",
+				"filter": [
+					"**/*"
+				]
+			}
+		],
+		"publish": [
+			{
+				"provider": "github",
+				"owner": "whydarcy",
+				"repo": "nexa_assistant",
+				"releaseType": "release"
+			}
+		],
+		"win": {
+			"target": [
+				{
+					"target": "nsis",
+					"arch": [
+						"x64"
+					]
+				}
+			],
+			"icon": "build/icon.ico",
+			"artifactName": "${productName}-Setup-${version}.${ext}"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true,
+			"allowElevation": true,
+			"createDesktopShortcut": true,
+			"createStartMenuShortcut": true,
+			"shortcutName": "Nexa",
+			"installerIcon": "build/icon.ico",
+			"uninstallerIcon": "build/icon.ico",
+			"license": "LICENSE.txt",
+			"runAfterFinish": true
+		},
+		"compression": "maximum",
+		"asar": true,
+		"asarUnpack": [
+			"resources/whisper/whisper_recognition.exe"
+		],
+		"npmRebuild": false
+	},
+	"dependencies": {
+		"electron-updater": "^6.6.2",
+		"smart-buffer": "^4.2.0",
+		"telegram": "^2.26.22"
+	},
+	"devDependencies": {
+		"electron": "^28.3.3",
+		"electron-builder": "^24.9.1"
+	}
+}

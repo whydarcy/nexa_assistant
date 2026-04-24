@@ -1,0 +1,40 @@
+name: Build Nexa Installer
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install root deps
+        run: npm install
+
+      - name: Build win-unpacked
+        run: node scripts/build-win-unpacked.js
+
+      - name: Install installer deps
+        run: npm install
+        working-directory: installer
+
+      - name: Build installer exe
+        run: npm run build
+        working-directory: installer
+
+      - name: Upload installer exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nexa-Installer
+          path: |
+            release/installer-build/*.exe
+            release/app-source/win-unpacked-new
